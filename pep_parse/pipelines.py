@@ -2,10 +2,11 @@ from pathlib import Path
 from collections import defaultdict
 from scrapy.utils.project import get_project_settings
 
+
 class PepParsePipeline:
     def __init__(self):
         self.status_counts = defaultdict(int)
-        
+
     def open_spider(self, spider):
         settings = get_project_settings()
         results_path = settings.get("RESULTS_DIR", "results")
@@ -21,7 +22,7 @@ class PepParsePipeline:
         results_path = settings.get("RESULTS_DIR", "results")
         total = sum(self.status_counts.values())
         output_path = Path(results_path) / 'status_summary.csv'
-        
+
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write('Статус,Количество\n')
             for status, count in self.status_counts.items():
