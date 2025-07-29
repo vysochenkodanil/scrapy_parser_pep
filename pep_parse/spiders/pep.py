@@ -1,19 +1,19 @@
-from urllib.parse import urljoin
-
 import scrapy
-
 from pep_parse.items import PepParseItem
 
 
 class PepSpider(scrapy.Spider):
     name = "pep"
+    allowed_domains = ["peps.python.org"]
     start_urls = ["https://peps.python.org/"]
 
     def parse(self, response):
-        pep_links = response.css('a[href^="pep-"]::attr(href)').getall()
-        for link in pep_links:
-            yield response.follow(
-                urljoin(response.url, link), callback=self.parse_pep)
+        all_links = response.css('a[href^="pep-"]')
+        if (
+            response.url == self.start_urls[0] and len(all_links) != 0
+        ):
+            for link in all_links:
+                yield response.follow(link, callback=self.parse_pep)
 
     def parse_pep(self, response):
         pep_number = response.css("h1.page-title::text").get().split()[1]
