@@ -10,7 +10,9 @@ class PepParsePipeline:
 
     def open_spider(self, spider):
         settings = (
-            spider.settings if hasattr(spider, "settings") else get_project_settings()
+            spider.settings if hasattr(
+                spider, "settings"
+            ) else get_project_settings()
         )
         results_path = settings.get("RESULTS_DIR", "results")
         Path(results_path).mkdir(parents=True, exist_ok=True)
