@@ -1,10 +1,7 @@
-from pathlib import Path
 from datetime import datetime
 from pathlib import Path
 
-
-
-RESULTS_DIR = Path('results')
+RESULTS_DIR = Path("results")
 
 RESULTS_DIR.mkdir(exist_ok=True)
 
@@ -16,18 +13,18 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
-FEED_EXPORT_ENCODING = 'utf-8'
+FEED_EXPORT_ENCODING = "utf-8"
 
 FEEDS = {
-    'results/pep_%(time)s.csv': {
-        'format': 'csv',
-        'fields': ['number', 'name', 'status'],
-        'overwrite': True
+    "results/pep_%(time)s.csv": {
+        "format": "csv",
+        "fields": ["number", "name", "status"],
+        "overwrite": True,
     }
 }
 
 ITEM_PIPELINES = {
-    'pep_parse.pipelines.PepParsePipeline': 300,
+    "pep_parse.pipelines.PepParsePipeline": 300,
 }
 
-FEED_STORAGES = {'file': 'scrapy.extensions.feedexport.FileFeedStorage'}
+FEED_STORAGES = {"file": "scrapy.extensions.feedexport.FileFeedStorage"}
