@@ -1,4 +1,6 @@
 from pathlib import Path
+from datetime import datetime
+
 
 RESULTS_DIR = Path('results')
 BOT_NAME = "pep_parse"
@@ -9,12 +11,12 @@ REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
 TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
 FEED_EXPORT_ENCODING = 'utf-8'
-FEED_URI_PARAMS = 'pep_parse.utils.uri_params'
+
+timestamp = datetime.now().strftime("%Y%m%d")
 FEEDS = {
-    'results/pep_%(time)s.csv': {
-        'format': 'csv',
-        'fields': ['number', 'name', 'status'],
-        'overwrite': True
+    f"results/pep_{timestamp}.csv": {
+        "format": "csv",
+        "fields": ["number", "name", "status"],
     }
 }
 ITEM_PIPELINES = {

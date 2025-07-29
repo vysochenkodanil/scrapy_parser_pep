@@ -10,7 +10,7 @@ from pathlib import Path
 
 class PepParsePipeline:
     def open_spider(self, spider):
-        Path('results').mkdir(exist_ok=True)
+        Path('results').mkdir(exist_ok=True) #вот тут то и создается эта сранная директория
         self.status_counts = defaultdict(int)
 
     def process_item(self, item, spider):
@@ -24,4 +24,3 @@ class PepParsePipeline:
             for status, count in self.status_counts.items():
                 f.write(f'{status},{count}\n')
             f.write(f'Total,{total}\n')
-
