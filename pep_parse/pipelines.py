@@ -20,12 +20,10 @@ class PepParsePipeline:
         return item
 
     def close_spider(self, spider):
-        settings = get_project_settings()
-        results_path = Path(settings.get("RESULTS_DIR", "results"))
-        results_path.mkdir(exist_ok=True, parents=True)
-
-        timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
-        filename = results_path / f'status_summary_{timestamp}.csv'
+        output_dir = Path.cwd() / 'results'
+        output_dir.mkdir(exist_ok=True, parents=True)
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+        filename = output_dir / f'status_summary_{timestamp}.csv'
 
         with open(filename, 'w', encoding='utf-8') as f:
             f.write('Статус,Количество\n')
