@@ -11,9 +11,7 @@ class PepParsePipeline:
 
     def open_spider(self, spider):
         settings = get_project_settings()
-        # Преобразуем строку в Path объект
         results_path = Path(settings.get("RESULTS_DIR", "results"))
-        # Создаем директорию без вложенного 'results'
         results_path.mkdir(parents=True, exist_ok=True)
         self.status_counts = defaultdict(int)
 
