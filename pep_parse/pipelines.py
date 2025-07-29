@@ -10,8 +10,8 @@ from pathlib import Path
 
 class PepParsePipeline:
     def open_spider(self, spider):
+        Path('results').mkdir(exist_ok=True)
         self.status_counts = defaultdict(int)
-        Path('results').mkdir(exist_ok=True, parents=True)
 
     def process_item(self, item, spider):
         self.status_counts[item['status']] += 1
