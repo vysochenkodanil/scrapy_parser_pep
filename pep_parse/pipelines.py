@@ -1,33 +1,32 @@
+import csv
 from collections import defaultdict
 from datetime import datetime
-from pathlib import Path
 
-from scrapy.utils.project import get_project_settings
+from pep_parse.settings import (
+    BASE_DIR,
+    RESULTS_DIR
+)
 
 
 class PepParsePipeline:
-    def __init__(self):
-        self.status_counts = defaultdict(int)
 
     def open_spider(self, spider):
-        settings = get_project_settings()
-        results_path = Path(settings.get("RESULTS_DIR", "results"))
-        results_path.mkdir(parents=True, exist_ok=True)
-        self.status_counts = defaultdict(int)
+        self.status_count = defaultdict(int)
+        self.results_dir = RESULTS_DIR
 
     def process_item(self, item, spider):
-        self.status_counts[item['status']] += 1
+        status = item['status']
+        self.status_count[status] += 1
         return item
 
     def close_spider(self, spider):
-        output_dir = Path.cwd() / 'results'
-        output_dir.mkdir(exist_ok=True, parents=True)
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        filename = output_dir / f'status_summary_{timestamp}.csv'
+        time_format = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        file_path = f'{self.results_dir}/status_summary_{time_format}.csv'
+        file_root = BASE_DIR / file_path
 
-        with open(filename, 'w', encoding='utf-8') as f:
-            f.write('Статус,Количество\n')
-            total = sum(self.status_counts.values())
-            for status, count in self.status_counts.items():
-                f.write(f'{status},{count}\n')
-            f.write(f'Total,{total}\n')
+        with open(file_root, 'w', encoding='utf-8') as f:
+            status_summary = [('Статус', 'Количество')]
+            status_summary.extend(self.status_count.items())
+            status_summary.append(('Total', sum(self.status_count.values())))
+            writer = csv.writer(f, lineterminator='\n')
+            writer.writerows(status_summary)

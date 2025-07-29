@@ -9,18 +9,20 @@ class PepSpider(scrapy.Spider):
     start_urls = ["https://peps.python.org/"]
 
     def parse(self, response):
-        all_links = response.css('a[href^="pep-"]')
-        if (
-            response.url == self.start_urls[0] and len(all_links) != 0
-        ):
-            for link in all_links:
-                yield response.follow(link, callback=self.parse_pep)
+        pep = response.css(
+            'table.pep-zero-table tbody td a::attr(href)').getall()
+
+        for link in pep:
+            link = response.response.urljoin(link)
+            yield response.follow(link, callback=self.parse_pep)
 
     def parse_pep(self, response):
-        pep_number = response.css("h1.page-title::text").get().split()[1]
-        pep_name = response.css(
-            "h1.page-title::text").get()
-        pep_status = response.css(
-            'dt:contains("Status") + dd::text').get() or "Unknown"
+        number, name = response.css('.page-title::text').get().split(' – ')
+        status = response.css(
+            'dt:contains("Status") + dd abbr::text').get(),
 
-        yield PepParseItem(number=pep_number, name=pep_name, status=pep_status)
+        yield PepParseItem(
+            number=number,
+            name=name,
+            status=status
+        )
