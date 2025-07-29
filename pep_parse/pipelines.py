@@ -6,7 +6,7 @@ from datetime import datetime
 class PepParsePipeline:
     def open_spider(self, spider):
         self.results_dir = Path('results')
-        self.results_dir.mkdir(parents=True, exist_ok=True)
+        self.results_dir.mkdir(exist_ok=True, parents=True)
         self.status_counts = defaultdict(int)
 
     def process_item(self, item, spider):
@@ -24,4 +24,3 @@ class PepParsePipeline:
             for status, count in sorted(self.status_counts.items()):
                 writer.writerow([status, count])
             writer.writerow(['Total', sum(self.status_counts.values())])
-
