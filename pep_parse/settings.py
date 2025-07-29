@@ -1,7 +1,6 @@
-from pathlib import Path
+RESULTS_DIR = 'results'
 
-RESULTS_DIR = Path("results")
-RESULTS_DIR.mkdir(exist_ok=True)
+FEED_URI_PARAMS = 'pep_parse.utils.uri_params'
 
 BOT_NAME = "pep_parse"
 
@@ -13,10 +12,12 @@ TWISTED_REACTOR = "twisted.internet.asyncioreactor.AsyncioSelectorReactor"
 
 FEED_EXPORT_ENCODING = "utf-8"
 
+RESULTS_DIR = 'results'
 FEEDS = {
     'results/pep_%(time)s.csv': {
         'format': 'csv',
         'fields': ['number', 'name', 'status'],
+        'overwrite': True
     }
 }
 
