@@ -1,6 +1,7 @@
 from pathlib import Path
 from collections import defaultdict
 from scrapy.utils.project import get_project_settings
+import os
 
 
 class PepParsePipeline:
@@ -17,14 +18,19 @@ class PepParsePipeline:
         self.status_counts[item['status']] += 1
         return item
 
-    def close_spider(self, spider):
-        settings = get_project_settings()
-        results_path = settings.get("RESULTS_DIR", "results")
-        total = sum(self.status_counts.values())
-        output_path = Path(results_path) / 'status_summary.csv'
+    # def close_spider(self, spider):
+    #     settings = get_project_settings()
+    #     results_path = settings.get("RESULTS_DIR", "results")
+    #     total = sum(self.status_counts.values())
+    #     output_path = Path(results_path) / 'status_summary.csv'
 
-        with open(output_path, 'w', encoding='utf-8') as f:
+    #     with open(output_path, 'w', encoding='utf-8') as f:
+    #         f.write('Статус,Количество\n')
+    #         for status, count in self.status_counts.items():
+    #             f.write(f'{status},{count}\n')
+    #         f.write(f'Total,{total}\n')
+
+    def close_spider(self, spider):
+        os.makedirs('results', exist_ok=True)
+        with open('results/status_summary.csv', 'w', encoding='utf-8') as f:
             f.write('Статус,Количество\n')
-            for status, count in self.status_counts.items():
-                f.write(f'{status},{count}\n')
-            f.write(f'Total,{total}\n')
