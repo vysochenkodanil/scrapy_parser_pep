@@ -1,16 +1,16 @@
-import csv
 from pathlib import Path
 from collections import defaultdict
-from datetime import datetime
 from pathlib import Path
-import os
 
 from collections import defaultdict
 from pathlib import Path
 
 class PepParsePipeline:
+    def __init__(self):
+        self.status_counts = defaultdict(int)
+    
     def open_spider(self, spider):
-        Path('results').mkdir(exist_ok=True) #вот тут то и создается эта сранная директория
+        Path("results").mkdir(parents=True, exist_ok=True)
         self.status_counts = defaultdict(int)
 
     def process_item(self, item, spider):
