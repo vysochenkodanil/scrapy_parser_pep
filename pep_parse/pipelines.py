@@ -1,7 +1,9 @@
-from pathlib import Path
-from collections import defaultdict
-from scrapy.utils.project import get_project_settings
 import os
+from collections import defaultdict
+from datetime import datetime
+from pathlib import Path
+
+from scrapy.utils.project import get_project_settings
 
 
 class PepParsePipeline:
@@ -29,8 +31,18 @@ class PepParsePipeline:
     #         for status, count in self.status_counts.items():
     #             f.write(f'{status},{count}\n')
     #         f.write(f'Total,{total}\n')
-
     def close_spider(self, spider):
+        # Создаем директорию results, если ее нет
         os.makedirs('results', exist_ok=True)
-        with open('results/status_summary.csv', 'w', encoding='utf-8') as f:
+
+        # Генерируем имя файла с временной меткой
+        timestamp = datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+        filename = f'results/status_summary_{timestamp}.csv'
+
+        with open(filename, 'w', encoding='utf-8') as f:
             f.write('Статус,Количество\n')
+            total = 0
+            for status, count in self.status_count.items():
+                f.write(f'{status},{count}\n')
+                total += count
+            f.write(f'Total,{total}\n')
