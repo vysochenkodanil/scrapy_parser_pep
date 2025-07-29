@@ -14,10 +14,10 @@ FEED_EXPORT_ENCODING = 'utf-8'
 
 timestamp = datetime.now().strftime("%Y%m%d")
 FEEDS = {
-    f"results/pep_{timestamp}.csv": {
-        "format": "csv",
-        "fields": ["number", "name", "status"],
-    }
+    'results/pep_%(time)s.csv': {
+        'format': 'csv',
+        'fields': ['number', 'name', 'status'],
+    },
 }
 ITEM_PIPELINES = {
     'pep_parse.pipelines.PepParsePipeline': 300,
