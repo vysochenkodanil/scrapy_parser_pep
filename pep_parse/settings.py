@@ -14,9 +14,14 @@ FEEDS = {
     'results/pep_%(time)s.csv': {
         'format': 'csv',
         'fields': ['number', 'name', 'status'],
-    },
+        'overwrite': True,
+        'encoding': 'utf8',
+        'store_empty': False
+    }
 }
 ITEM_PIPELINES = {
     'pep_parse.pipelines.PepParsePipeline': 300,
 }
+FEED_EXPORT_ENCODING = 'utf-8'
 FEED_URI_PARAMS = 'pep_parse.utils.uri_params'
+FEED_STORAGES = {'file': 'scrapy.extensions.feedexport.FileFeedStorage'}
