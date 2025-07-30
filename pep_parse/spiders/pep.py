@@ -1,7 +1,8 @@
 import scrapy
 
 from pep_parse.items import PepParseItem
-from pep_parse.settings import NAME, ALLOWED_HOST, START_URL 
+from pep_parse.settings import NAME, ALLOWED_HOST, START_URL
+
 
 class PepSpider(scrapy.Spider):
     name = NAME
