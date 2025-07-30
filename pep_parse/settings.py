@@ -15,7 +15,9 @@ ITEM_PIPELINES = {
 BASE_DIR = Path(__file__).parent.parent
 
 RESULTS_DIR = 'results'
-
+NAME = "pep"
+ALLOWED_HOST = "peps.python.org"
+START_URL = "https://peps.python.org/"
 FEEDS = {
     f'{RESULTS_DIR}/pep_%(time)s.csv':
     {
